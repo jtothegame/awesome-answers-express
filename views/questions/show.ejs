@@ -1,8 +1,11 @@
 <%- include('../partials/header') %>
 
-  <a href="/questions">Back</a>
+  <div class="container">
   <h1><%= question.title %></h1>
-  <p><%= question.description %></p>
+  <p><strong>Description: </strong><%= question.description %></p>
   <p><strong>Created At: </strong><%= question.createdAt %></p>
+
+  <a class="btn btn-primary" href="/questions">Back</a>
+  </div>
 
 <%- include('../partials/footer') %>

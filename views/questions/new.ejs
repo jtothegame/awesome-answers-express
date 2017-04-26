@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+
+<h1>New Question</h1>
+
+<form action='/questions' method="post">
+  <div>
+    <label for='title'>Title</label><br>
+    <input type='text' id='title' name='title'>
+  </div>
+
+  <div>
+    <label for='description'>Description</label><br>
+    <textarea id='description' name='description'></textarea>
+  </div><br>
+
+  <input type='submit' id='submit' name='submit' value='Submit' class='btn btn-success'/>
+</form>
+
+<%- include('../partials/footer') %>
