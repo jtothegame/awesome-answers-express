@@ -1,11 +1,35 @@
 <%- include('../partials/header') %>
 
+  <a class="btn btn-primary" href="/questions">Back</a>
+
   <div class="container">
   <h1><%= question.title %></h1>
   <p><strong>Description: </strong><%= question.description %></p>
   <p><strong>Created At: </strong><%= question.createdAt %></p>
 
-  <a class="btn btn-primary" href="/questions">Back</a>
+  <form action='/questions/<%= question.id %>' method='post'>
+    <input type='hidden' name='_method' value='delete'/>
+    <input type='submit' value='Delete' class='btn btn-danger'/>
+  </form>
+
+  <h2>Answers</h2>
+
+  <form action='/questions/<%= question.id %>/answers' method="post">
+    <div>
+      <textarea id='content' name='content'></textarea>
+    </div><br>
+
+    <input type='submit' name='submit' value='Submit' class='btn btn-success'/>
+  </form>
   </div>
+
+  <ul class="answers-list">
+    <% for (let answer of answers) { %>
+      <li>
+        <p><strong>Answer: </strong><%= answer.content %></p>
+        <p><strong>Created At: </strong><%= answer.createdAt %></p>
+      </li>
+    <% } %>
+  </ul>
 
 <%- include('../partials/footer') %>

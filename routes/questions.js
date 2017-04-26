@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
+const answers = require('./answers');
+
 const Question = require('../models/index').Question;
-// NEW! Destructuring
+// ð NEW! Destructuring
 // const {Question} = require('../models/index');
 
 // Questions#index URL: /questions VERB: GET
@@ -27,6 +29,7 @@ router.get('/new', function (req, res) {
   res.render('questions/new', {question: question});
 })
 
+// Questions#create URL: /questions VERB: POST
 router.post('/', function (req, res) {
   // .body is a property of the request object that
   // contains all form data as a JavaScript object
@@ -44,6 +47,16 @@ router.post('/', function (req, res) {
     })
 })
 
+// Questions#destroy URL: /questions/:id VERB: DELETE
+router.delete('/:id', function (req, res) {
+  const id = req.params.id;
+
+  Question
+    .findById(id)
+    .then(function (question) {return question.destroy() })
+    .then(function () { res.redirect('/questions') });
+})
+
 // Questions#show URL: /questions/:id VERB: GET
 // For a url `/questions/99`, the req.params object will be equal to {id: '99'}
 router.get('/:id', function (req, res) {
@@ -52,8 +65,22 @@ router.get('/:id', function (req, res) {
   Question
     .findById(id)
     .then(function (question) {
-      res.render('questions/show', {question: question})
-    });
+      return Promise.all([
+        question,
+        question.getAnswers({order: [['createdAt', 'DESC']]})
+      ])
+    })
+    // NEW! Array Destructuring
+    // const [first, second, ...rest] = [1, 2, 3, 4, 5, 6]
+    // first === 1; second === 2, rest === [3, 4, 5. 6]
+    // can also be done with function arguments
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
+    .then(function ([question, answers]) {
+      res.render('questions/show', {question: question, answers: answers})
+    })
 })
+
+// URL: /questions/:questionId/answers VERB: All of them!
+router.use('/:questionId/answers', answers);
 
 module.exports = router;
