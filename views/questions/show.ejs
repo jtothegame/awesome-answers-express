@@ -7,6 +7,9 @@
   <p><strong>Description: </strong><%= question.description %></p>
   <p><strong>Created At: </strong><%= question.createdAt %></p>
 
+  <%# Edit Link %>
+  <a href='/questions/<%= question.id %>/edit'>Edit</a>
+
   <form action='/questions/<%= question.id %>' method='post'>
     <input type='hidden' name='_method' value='delete'/>
     <input type='submit' value='Delete' class='btn btn-danger'/>
